@@ -214,7 +214,7 @@ class BiorbdModelNoMesh:
     @property
     def rigid_contacts_names(self) -> tuple[str, ...]:
         """
-        Returns the names of the soft contacts
+        Returns the names of the rigid contacts
         """
         return tuple([s.to_string() for s in self.model.contactNames()])
 
