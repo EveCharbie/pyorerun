@@ -1,10 +1,15 @@
 import numpy as np
 import rerun as rr
 from trimesh import Trimesh, load
+import logging
 
 from ..abstract.abstract_class import Component
 from ..utils.vtp_parser import read_vtp_file
 
+
+# Ignoring trimesh warnings
+logger = logging.getLogger("trimesh")
+logger.setLevel(logging.ERROR)
 
 class TransformableMeshUpdater(Component):
     """
