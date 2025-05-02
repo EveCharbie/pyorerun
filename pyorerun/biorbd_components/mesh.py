@@ -18,7 +18,7 @@ class TransformableMeshUpdater(Component):
     """
 
     def __init__(
-        self, name: str, mesh: Trimesh, transform_callable: callable, scaling_factor: np.ndarray[float, float, float]
+        self, name: str, mesh: Trimesh, transform_callable: callable, scaling_factor: np.ndarray
     ):
         """
         Parameters
@@ -30,7 +30,7 @@ class TransformableMeshUpdater(Component):
         transform_callable: callable
             The function translating and rotating the mesh
         scaling_factor: np.ndarray[float, float, float]
-            The scaling factor to be applied to the mesh on the x, y, and z-axis
+            The scaling factor to be applied to the mesh on the x, y, and z-axis (3, 1) or (3, ) or (1, 3)
         """
         filename = (
             mesh.metadata["file_name"] if "file_name" in mesh.metadata else mesh.metadata["header"].replace(" ", "")
@@ -78,7 +78,7 @@ class TransformableMeshUpdater(Component):
 
     @classmethod
     def from_file(
-        cls, name, file_path: str, transform_callable, scaling_factor: np.ndarray[float, float, float]
+        cls, name, file_path: str, transform_callable, scaling_factor: np.ndarray
     ) -> "TransformableMeshUpdater":
         if file_path.endswith(".stl") or file_path.endswith(".STL"):
             mesh = load(file_path, file_type="stl")
@@ -99,7 +99,7 @@ class TransformableMeshUpdater(Component):
             return cls(name, mesh, transform_callable, scaling_factor)
 
     def apply_transform(
-        self, homogenous_matrix: np.ndarray, scaling_factor: np.ndarray[float, float, float]
+        self, homogenous_matrix: np.ndarray, scaling_factor: np.ndarray
     ) -> Trimesh:
         """Apply a transform to the mesh from its initial position"""
         self.transformed_mesh = self.__mesh.copy()
