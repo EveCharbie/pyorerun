@@ -28,7 +28,10 @@ def test_run_all_examples():
     # Loop over all files in subfolders
     for root, dirs, files in os.walk(examples_dir):
         for file in files:
-            if file.endswith(".py"):
+            if file.endswith(".py") and file != "from_osim_model.py":
+                # Opensim example is skiped for now as it generates the following error on the CI:
+                # "ImportError: /usr/share/miniconda3/envs/pyorerun/lib/python3.12/site-packages/opensim/../../../
+                # libosimMoco.so: undefined symbol: _ZN6casadi12SharedObjectD2Ev"
 
                 # If you are running the files to check visually that you did not break anything, uncomment the
                 # following line. It will wait for the rerun window to be closed before running the next example.
