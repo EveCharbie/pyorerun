@@ -46,7 +46,7 @@ class DisplayModelOptions:
     def markers_color(self, value: tuple[int, int, int]):
         if not isinstance(value, tuple) or len(value) != 3:
             raise ValueError("markers_color must be a tuple of three integers.")
-        self.markers_color = value
+        self._markers_color = value
 
     @property
     def markers_radius(self) -> float:
