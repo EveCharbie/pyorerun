@@ -30,7 +30,7 @@ class MarkersUpdater(Component):
         return rr.Points3D(
             positions=self.callable_markers(q),
             radii=self.marker_properties.radius_to_rerun(),
-            colors=self.marker_properties.color_to_rerun(),
+            colors=self.marker_properties.color_to_rerun(1),
             labels=self.marker_properties.marker_names,
             show_labels=self.marker_properties.show_labels_to_rerun(),
         )
@@ -43,11 +43,12 @@ class MarkersUpdater(Component):
         markers = self.compute_markers(q).transpose(2, 1, 0).reshape(-1, 3)
         marker_names = [name for _ in range(nb_frames) for name in self.marker_properties.marker_names]
         partition = [self.nb_markers for _ in range(nb_frames)]
+        marker_colors = self.marker_properties.color_to_rerun(nb_frames)
         return {
             self.name: [
                 rr.Points3D.indicator(),
                 rr.components.Position3DBatch(markers).partition(partition),
-                rr.components.ColorBatch([self.marker_properties.color for _ in range(nb_frames)]),
+                rr.components.ColorBatch(marker_colors).partition(partition),
                 rr.components.RadiusBatch([self.marker_properties.radius for _ in range(nb_frames)]),
                 rr.components.TextBatch(marker_names).partition(partition),
                 rr.components.ShowLabelsBatch([self.marker_properties.show_labels for _ in range(nb_frames)]),
@@ -99,7 +100,7 @@ class PersistentMarkersUpdater(PersistentComponent):
         return rr.Points3D(
             positions=markers,
             radii=self.persistent_options.radius_to_rerun(),
-            colors=self.persistent_options.color_to_rerun(),
+            colors=self.persistent_options.color_to_rerun(1),
             labels=self.persistent_options.marker_names * len(frames_to_keep),
             show_labels=self.persistent_options.show_labels_to_rerun(),
         )
@@ -114,10 +115,15 @@ class PersistentMarkersUpdater(PersistentComponent):
         nb_frames_trials = q.shape[1]
 
         markers = np.empty((0, 3))
+        marker_colors = np.empty((0, 1))
         for frame in range(nb_frames_trials):
             frames_to_keep = self.persistent_options.frames_to_keep(frame)
+
             markers_to_display = self.compute_markers(q[:, frames_to_keep])
             markers = np.vstack((markers, markers_to_display.transpose(2, 1, 0).reshape(-1, 3)))
+
+            colors_to_display = np.array(self.persistent_options.color_to_rerun(nb_frames_trials))[frames_to_keep, :]
+            marker_colors = np.vstack((marker_colors, colors_to_display.reshape(-1, 1)))
 
         # Get the partitions
         list_frames_to_keep = self.persistent_options.all_frames_to_keep(nb_frames_trials)
@@ -132,7 +138,7 @@ class PersistentMarkersUpdater(PersistentComponent):
             self.name: [
                 rr.Points3D.indicator(),
                 rr.components.Position3DBatch(markers).partition(partition),
-                rr.components.ColorBatch([self.persistent_options.color for _ in range(nb_frames_trials)]),
+                rr.components.ColorBatch(marker_colors).partition(partition),
                 rr.components.RadiusBatch([self.persistent_options.radius for _ in range(nb_frames_trials)]),
                 rr.components.TextBatch(partition_marker_names).partition(partition),
                 rr.components.ShowLabelsBatch([self.persistent_options.show_labels for _ in range(nb_frames_trials)]),

@@ -8,8 +8,8 @@ class PersistentMarkerOptions(MarkerProperties):
         marker_names: list[str] | tuple[str, ...],
         radius: float | tuple[float, ...],
         color: np.ndarray,
+        nb_frames: int,
         show_labels: bool | list[bool] = True,
-        nb_frames: int | None = None,
     ) -> None:
         """
         Initialization of a marker trajectory
@@ -24,8 +24,8 @@ class PersistentMarkerOptions(MarkerProperties):
             the color of the markers to display a trajectory for
         show_labels : bool
             whether to show the labels of the markers to display a trajectory for.
-        nb_frames: int | None
-            The number of frames to display the trajectory for. If None, all previous frames will be displayed.
+        nb_frames: int
+            The number of frames to display the trajectory for.
             Example: nb_frames=20 means that the position of the marker for the last 20 frames will be displayed at each current frame.
         """
         super().__init__(marker_names, radius, color, show_labels)

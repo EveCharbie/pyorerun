@@ -57,7 +57,7 @@ class MarkersXp(Markers, ExperimentalData):
             rr.Points3D(
                 positions=from_pyomeca_to_rerun(self.markers_numpy[:3, :, frame]),
                 radii=self.markers_properties.radius_to_rerun(),
-                colors=self.markers_properties.color_to_rerun(),
+                colors=self.markers_properties.color_to_rerun(1),
                 labels=self.marker_names,
                 show_labels=self.markers_properties.show_labels_to_rerun(),
             ),
@@ -80,7 +80,7 @@ class MarkersXp(Markers, ExperimentalData):
         rr.Points3D(
             positions=from_pyomeca_to_rerun(self.markers_numpy[:3, :, frame]),
             radii=self.markers_properties.radius_to_rerun(),
-            colors=self.markers_properties.color_to_rerun(),
+            colors=self.markers_properties.color_to_rerun(1),
             labels=self.marker_names,
             show_labels=self.markers_properties.show_labels_to_rerun(),
         )

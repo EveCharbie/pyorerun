@@ -3,6 +3,7 @@ from abc import abstractmethod
 import numpy as np
 
 from .abstract_class import Component
+from ..utils.color_utils import get_colors
 
 
 class Markers(Component):
@@ -86,7 +87,7 @@ class MarkerProperties:
             return np.ones(self.nb_markers) * self.radius
         return np.array(self.radius)
 
-    def color_to_rerun(self) -> None:
+    def color_to_rerun(self, nb_frames: int) -> list[np.ndarray]:
         """
         Returns a numpy array with the color of each marker.
 
@@ -95,7 +96,9 @@ class MarkerProperties:
         np.ndarray
             A numpy array with the color of each marker.
         """
-        return np.tile(self.color, (self.nb_markers, 1))
+        nb_markers = len(self.marker_names)
+        colors = get_colors(color=self.color, nb_elements=nb_markers, nb_frames=nb_frames)
+        return colors
 
     def show_labels_to_rerun(self) -> list[bool]:
         """
