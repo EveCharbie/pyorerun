@@ -1,3 +1,4 @@
+from pathlib import Path
 import pickle
 import numpy as np
 
@@ -6,8 +7,10 @@ from pyorerun import BiorbdModel, PhaseRerun, PyoMuscles, PyoMarkers
 
 def main():
 
+    current_path = Path(__file__).parent.as_posix()
+
     # --- Load the experimental data from file --- #
-    with open(f"data/gait_reconstruction.pkl", "rb") as file:
+    with open(current_path + "/data/gait_reconstruction.pkl", "rb") as file:
         data = pickle.load(file)
         q = data["q"]
         t_span = data["t_span"]
@@ -19,7 +22,7 @@ def main():
 
     # --- Create the visualization --- #
     # Add the model
-    biorbd_model_path = "models/walker.bioMod"
+    biorbd_model_path = current_path + "/models/walker.bioMod"
     model = BiorbdModel(biorbd_model_path)
     model.options.transparent_mesh = False
     model.options.show_marker_labels = False

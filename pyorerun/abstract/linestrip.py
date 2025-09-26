@@ -3,6 +3,7 @@ from abc import abstractmethod
 import numpy as np
 
 from .abstract_class import Component
+from ..utils.color_utils import get_colors
 
 
 class LineStrips(Component):
@@ -91,7 +92,7 @@ class LineStripProperties:
         else:
             return self.radius
 
-    def color_to_rerun(self, nb_frames: int) -> np.ndarray:
+    def color_to_rerun(self, nb_frames: int) -> list[np.ndarray]:
         """
         Returns a numpy array with the color of each line.
 
@@ -101,12 +102,7 @@ class LineStripProperties:
             A numpy array with the color of each line.
         """
         nb_strips = len(self.strip_names)
-        if len(self.color.shape) == 3:
-            colors = [self.color[s, f, :] for f in range(nb_frames) for s in range(nb_strips)]
-        elif len(self.color.shape) == 2:
-            colors = [self.color[s, :, :] for _ in range(nb_frames) for s in range(nb_strips)]
-        else:
-            colors = [self.color for _ in range(nb_frames * nb_strips)]
+        colors = get_colors(color=self.color, nb_elements=nb_strips, nb_frames=nb_frames)
         return colors
 
     def show_labels_to_rerun(self) -> list[bool]:

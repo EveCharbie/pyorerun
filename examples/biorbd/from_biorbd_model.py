@@ -1,3 +1,4 @@
+from pathlib import Path
 import biorbd
 import numpy as np
 
@@ -10,7 +11,8 @@ def main():
     nb_seconds = 1
     t_span = np.linspace(0, nb_seconds, nb_frames)
 
-    biorbd_model = biorbd.Model("models/Wu_Shoulder_Model_kinova_scaled_adjusted_2.bioMod")
+    model_path = Path(__file__).parent.as_posix() + "/models/Wu_Shoulder_Model_kinova_scaled_adjusted_2.bioMod"
+    biorbd_model = biorbd.Model(model_path)
     prr_model = BiorbdModel.from_biorbd_object(biorbd_model)
 
     # building some generalized coordinates

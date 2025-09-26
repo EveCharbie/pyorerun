@@ -1,10 +1,12 @@
+from pathlib import Path
 import numpy as np
 
 from pyorerun import PhaseRerun, BiorbdModel
 
 
 def main():
-    biorbd_model_path = "models/2d_wheelchair.bioMod"
+    current_path = Path(__file__).parent.as_posix()
+    biorbd_model_path = current_path + "/models/2d_wheelchair.bioMod"
 
     # building some time components
     nb_frames = 200
