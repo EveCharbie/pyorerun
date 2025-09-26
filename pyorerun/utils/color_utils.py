@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def get_colors(color: np.ndarray, nb_elements: int, nb_frames: int) -> list[np.ndarray]:
     """
     Returns a list of colors for each marker at each frame.
