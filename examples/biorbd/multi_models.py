@@ -3,7 +3,7 @@ This example shows how to run multiple models in the same window. It also shows 
 windows. It also shows how to add experimental markers to the animation.
 # todo: to restore the multi-window, it doesn't work anymore.
 """
-
+from pathlib import Path
 import numpy as np
 from numpy import random
 
@@ -21,7 +21,8 @@ def building_some_q_and_t_span(nb_frames: int, nb_seconds: int) -> tuple[np.ndar
 
 
 def main():
-    biorbd_model_path = "models/double_pendulum.bioMod"
+    current_path = Path(__file__).parent.as_posix()
+    biorbd_model_path = current_path + "/models/double_pendulum.bioMod"
 
     # building some time components
     nb_frames = 200

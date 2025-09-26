@@ -1,3 +1,4 @@
+from pathlib import Path
 import numpy as np
 
 import pyorerun as prr
@@ -15,7 +16,8 @@ def main():
     q[1, :] = np.linspace(0, 0.3, nb_frames)
 
     # running the animation
-    prr.animate("models/double_pendulum.bioMod", q, tspan=t_span)
+    current_path = Path(__file__).parent.as_posix()
+    prr.animate(current_path + "/models/double_pendulum.bioMod", q, tspan=t_span)
 
 
 if __name__ == "__main__":

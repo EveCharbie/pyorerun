@@ -1,10 +1,12 @@
+from pathlib import Path
 import numpy as np
 
 from pyorerun import BiorbdModel, PhaseRerun, PyoMarkers
 
 
 def main():
-    biorbd_model_path = "models/double_pendulum.bioMod"
+    current_path = Path(__file__).parent.as_posix()
+    biorbd_model_path = current_path + "/models/double_pendulum.bioMod"
 
     # building some time components
     nb_frames = 200

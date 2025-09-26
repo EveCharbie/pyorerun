@@ -1,10 +1,12 @@
+from pathlib import Path
 import numpy as np
 
 from pyorerun import BiorbdModelNoMesh, PhaseRerun, PyoMarkers
 
 
 def main():
-    biorbd_model_path = "models/no_mesh_no_marker.s2mMod"
+    current_path = Path(__file__).parent.as_posix()
+    biorbd_model_path = current_path + "/models/no_mesh_no_marker.s2mMod"
 
     # building some time components
     nb_frames = 200

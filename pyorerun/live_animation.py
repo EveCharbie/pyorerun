@@ -100,7 +100,8 @@ class LiveModelAnimation:
         # update manually here
         rr.init(application_id=f"{self.model.name}" if name is None else name, spawn=True)
         self.update_rerun_components(the_dof_idx=0, the_value=0.0)
-        self.create_window_with_sliders()
+        if self.with_q_charts:
+            self.create_window_with_sliders()
 
     def create_window_with_sliders(self):
         root = tk.Tk()
