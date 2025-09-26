@@ -44,7 +44,6 @@ def main():
     toc = time.time()
     print(f"Time to run with chunks: {toc - tic}")
 
-
     viz = PhaseRerun(t_span)
 
     # Example of how to add persistent markers with changing color over time

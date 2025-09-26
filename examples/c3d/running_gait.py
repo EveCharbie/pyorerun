@@ -1,6 +1,7 @@
 from pathlib import Path
 import pyorerun as prr
 
+
 def main():
     current_path = Path(__file__).parent.as_posix()
     prr.c3d(
@@ -12,6 +13,7 @@ def main():
         show_events=False,
         video=(current_path + "/Running_0002_Oqus_6_15004.avi", current_path + "/Running_0002_Oqus_9_15003.avi"),
     )
+
 
 if __name__ == "__main__":
     main()

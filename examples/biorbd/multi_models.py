@@ -3,6 +3,7 @@ This example shows how to run multiple models in the same window. It also shows 
 windows. It also shows how to add experimental markers to the animation.
 # todo: to restore the multi-window, it doesn't work anymore.
 """
+
 from pathlib import Path
 import numpy as np
 from numpy import random

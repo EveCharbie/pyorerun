@@ -1,6 +1,7 @@
 from pathlib import Path
 import pyorerun as prr
 
+
 def main():
     current_path = Path(__file__).parent.as_posix()
     prr.c3d(
@@ -10,6 +11,7 @@ def main():
         marker_trajectories=True,
         show_marker_labels=False,
     )
+
 
 if __name__ == "__main__":
     main()

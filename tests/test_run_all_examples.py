@@ -7,13 +7,13 @@ import tkinter as tk
 
 
 def wait_for_port_to_be_free(port=9876, timeout=60):
-    """ Wait for the rerun port to become available """
+    """Wait for the rerun port to become available"""
     start_time = time.time()
     while time.time() - start_time < timeout:
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 s.settimeout(1)
-                result = s.connect_ex(('localhost', port))
+                result = s.connect_ex(("localhost", port))
                 if result != 0:  # Port is free
                     return True
         except:
@@ -47,9 +47,7 @@ def test_run_all_examples():
 
                     # Check if the module has a main function and call it
                     print(f"Running {file_path}")
-                    if hasattr(module, 'main'):
+                    if hasattr(module, "main"):
                         module.main()
                     else:
                         raise RuntimeError("All example files must have a main() function")
-
-
