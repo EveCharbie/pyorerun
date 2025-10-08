@@ -28,6 +28,9 @@ class PersistentMarkerOptions(MarkerProperties):
             The number of frames to display the trajectory for.
             Example: nb_frames=20 means that the position of the marker for the last 20 frames will be displayed at each current frame.
         """
+        if not isinstance(color, np.ndarray):
+            raise TypeError("color must be a numpy array")
+
         super().__init__(marker_names, radius, color, show_labels)
         self.nb_frames = nb_frames
 
