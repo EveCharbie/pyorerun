@@ -96,13 +96,14 @@ class PhaseRerun:
         elif isinstance(muscle_activations_intensity, PyoMuscles):
             muscle_colors = muscle_activations_intensity.to_colors()
 
-        shape_is_not_consistent = muscle_colors.shape[1] != self.t_span.shape[0]
-        if shape_is_not_consistent:
-            raise ValueError(
-                f"The shapes of muscle_activations_intensity (in Pyoemg) and tspan are inconsistent. "
-                f"They must have the same length."
-                f"Current shapes are muscle_activations_intensity: {q.shape[1]} and tspan: {self.t_span.shape}."
-            )
+        if muscle_colors is not None:
+            shape_is_not_consistent = muscle_colors.shape[1] != self.t_span.shape[0]
+            if shape_is_not_consistent:
+                raise ValueError(
+                    f"The shapes of muscle_activations_intensity (in Pyoemg) and tspan are inconsistent. "
+                    f"They must have the same length."
+                    f"Current shapes are muscle_activations_intensity: {q.shape[1]} and tspan: {self.t_span.shape}."
+                )
 
         if tracked_markers is not None:
             tracked_markers = check_and_adjust_markers(model, tracked_markers)
