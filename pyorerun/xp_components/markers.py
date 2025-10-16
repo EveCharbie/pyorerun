@@ -71,7 +71,7 @@ class MarkersXp(Markers, ExperimentalData):
             for j, axis in enumerate(["X", "Y", "Z"]):
                 rr.log(
                     f"markers_graphs/{m}/{axis}",
-                    rr.Scalar(
+                    rr.Scalars(
                         positions_f[marker_names.index(m), j],
                     ),
                 )
@@ -90,14 +90,18 @@ class MarkersXp(Markers, ExperimentalData):
         flattened_markers = self.markers_numpy[:3, :, :].transpose(2, 1, 0).reshape(-1, 3)
         marker_names = self.marker_names * self.nb_frames
         partition = [self.nb_markers for _ in range(self.nb_frames)]
+
         return {
             self.name: [
-                rr.Points3D.indicator(),
-                rr.components.Position3DBatch(flattened_markers).partition(partition),
-                rr.components.ColorBatch([self.markers_properties.color for _ in range(self.nb_frames)]),
-                rr.components.RadiusBatch([self.markers_properties.radius for _ in range(self.nb_frames)]),
-                rr.components.TextBatch(marker_names).partition(partition),
-                rr.components.ShowLabelsBatch([self.markers_properties.show_labels for _ in range(self.nb_frames)]),
+                *rr.Points3D.columns(
+                    positions=flattened_markers,
+                    labels=marker_names,
+                ).partition(partition),
+                *rr.Points3D.columns(
+                    colors=[self.markers_properties.color for _ in range(self.nb_frames)],
+                    radii=[self.markers_properties.radius for _ in range(self.nb_frames)],
+                    show_labels=[self.markers_properties.show_labels for _ in range(self.nb_frames)],
+                ),
             ]
         }
 

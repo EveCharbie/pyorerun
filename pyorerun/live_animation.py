@@ -32,18 +32,18 @@ class LiveModelAnimation:
         Whether to plot q values when the joint angles are updated.
     """
 
-    def __init__(self, model_path: str, with_q_charts: bool = False):
+    def __init__(self, model_updater: ModelUpdater, with_q_charts: bool = False):
         """
         Parameters
         ----------
-        model_path: str
-            The path to the bioMod file.
+        model_updater : ModelUpdater
+            An instance of ModelUpdater to handle model updates.
         with_q_charts
             If True, q values will be plotted when the joint angles are updated.
         """
 
         self.counter = 0
-        self.model_updater = ModelUpdater.from_file(model_path)
+        self.model_updater = model_updater
         self.model = self.model_updater.model
         self.biorbd_model = self.model.model
 
@@ -53,6 +53,15 @@ class LiveModelAnimation:
         self.update_functions = []
         self.with_q_charts = with_q_charts
         self.options = DisplayModelOptions()
+
+    @classmethod
+    def from_model(cls, model, with_q_charts: bool = False):
+        model_updater = ModelUpdater("live_model", model)
+        return cls(model_updater, with_q_charts)
+
+    @classmethod
+    def from_file(cls, model_path: str, with_q_charts: bool = False):
+        return cls(ModelUpdater.from_file(model_path), with_q_charts)
 
     def update_viewer(self, event, dof_index: int):
         the_dof_idx, the_value = self.fetch_and_update_slider_value(event, dof_index)
@@ -69,7 +78,7 @@ class LiveModelAnimation:
         self.q[the_dof_idx] = the_value
         # update counter
         self.counter += 1
-        rr.set_time_sequence(timeline="step", sequence=self.counter)
+        rr.set_time(timeline="step", sequence=self.counter)
         # Update the model
         self.update_model(self.q)
         # Update the q trajectories
@@ -84,17 +93,17 @@ class LiveModelAnimation:
         dof_names = self.model.dof_names
         for joint_idx in range(self.biorbd_model.nbQ()):
             name = f"q{joint_idx} - {dof_names[joint_idx]}"
-            rr.log(f"{name}/min", rr.SeriesLine(color=[255, 0, 0], name="min", width=0.5))
-            rr.log(f"{name}/max", rr.SeriesLine(color=[255, 0, 0], name="max", width=0.5))
-            rr.log(f"{name}/value", rr.SeriesLine(color=[0, 255, 0], name="q", width=0.5))
+            rr.log(f"{name}/min", rr.SeriesLines(colors=[255, 0, 0], names="min", widths=0.5))
+            rr.log(f"{name}/max", rr.SeriesLines(colors=[255, 0, 0], names="max", widths=0.5))
+            rr.log(f"{name}/value", rr.SeriesLines(colors=[0, 255, 0], names="q", widths=0.5))
 
             q_range = q_ranges[joint_idx]
             self.to_serie_line(name=name, min=q_range.min(), max=q_range.max(), val=q[joint_idx])
 
     def to_serie_line(self, name: str, min: float, max: float, val: float):
-        rr.log(f"{name}/min", rr.Scalar(min))
-        rr.log(f"{name}/max", rr.Scalar(max))
-        rr.log(f"{name}/value", rr.Scalar(val))
+        rr.log(f"{name}/min", rr.Scalars(min))
+        rr.log(f"{name}/max", rr.Scalars(max))
+        rr.log(f"{name}/value", rr.Scalars(val))
 
     def rerun(self, name: str = None):
         # update manually here
