@@ -71,6 +71,6 @@ class QProperties:
         # Note: base_name is not used yet because of tree like structure of rerun, it was not a good idea to use it.
         for joint_idx in range(self.nb_q):
             joint_name = self.displayed_joint_names[joint_idx]
-            rr.log(f"{joint_name}/min", rr.SeriesLine(color=self.min_color, name="min", width=self.width))
-            rr.log(f"{joint_name}/max", rr.SeriesLine(color=self.max_color, name="max", width=self.width))
-            rr.log(f"{joint_name}/value", rr.SeriesLine(color=self.value_color, name="q", width=self.width))
+            rr.log(f"{joint_name}/min", rr.SeriesLines(colors=self.min_color, names="min", widths=self.width))
+            rr.log(f"{joint_name}/max", rr.SeriesLines(colors=self.max_color, names="max", widths=self.width))
+            rr.log(f"{joint_name}/value", rr.SeriesLines(colors=self.value_color, names="q", widths=self.width))

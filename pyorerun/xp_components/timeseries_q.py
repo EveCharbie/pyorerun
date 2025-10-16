@@ -145,23 +145,23 @@ class TimeSeriesQ(ExperimentalData):
                 #  todo: this log calls should be done once for all somewhere in the properties of Q
                 rr.log(
                     f"{name}/min",
-                    rr.SeriesLine(color=self.properties.min_color, name="min", width=self.properties.width),
+                    rr.SeriesLines(colors=self.properties.min_color, names="min", widths=self.properties.width),
                 )
                 rr.log(
                     f"{name}/max",
-                    rr.SeriesLine(color=self.properties.max_color, name="max", width=self.properties.width),
+                    rr.SeriesLines(colors=self.properties.max_color, names="max", widths=self.properties.width),
                 )
                 rr.log(
                     f"{name}/value",
-                    rr.SeriesLine(color=self.properties.value_color, name="q", width=self.properties.width),
+                    rr.SeriesLines(colors=self.properties.value_color, names="q", widths=self.properties.width),
                 )
                 self.to_serie_line(name=name, min=qmin, max=qmax, val=self.q[joint_idx, frame])
 
     @staticmethod
     def to_serie_line(name: str, min: float, max: float, val: float):
-        rr.log(f"{name}/min", rr.Scalar(min))
-        rr.log(f"{name}/max", rr.Scalar(max))
-        rr.log(f"{name}/value", rr.Scalar(val))
+        rr.log(f"{name}/min", rr.Scalars(min))
+        rr.log(f"{name}/max", rr.Scalars(max))
+        rr.log(f"{name}/value", rr.Scalars(val))
 
     def to_chunk(self):
         pass

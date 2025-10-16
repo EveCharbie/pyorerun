@@ -4,7 +4,7 @@ import numpy as np
 import rerun as rr
 
 from ..abstract.abstract_class import ExperimentalData
-from ..abstract.markers import rgb255_to_hex_rgba
+from ..utils.color_utils import rgb255_to_hex_rgba
 
 VECTOR_COLOR = rgb255_to_hex_rgba(np.array([201, 219, 227]))
 

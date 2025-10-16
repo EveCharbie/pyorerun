@@ -118,15 +118,15 @@ class PersistentMarkersUpdater(PersistentComponent):
         nb_frames_trials = q.shape[1]
 
         markers = np.empty((0, 3))
-        marker_colors = np.empty((0, 3))
+        marker_colors = []
         for frame in range(nb_frames_trials):
             frames_to_keep = self.persistent_options.frames_to_keep(frame)
 
             markers_to_display = self.compute_markers(q[:, frames_to_keep])
             markers = np.vstack((markers, markers_to_display.transpose(2, 1, 0).reshape(-1, 3)))
 
-            colors_to_display = np.array(self.persistent_options.color_to_rerun(nb_frames_trials))[frames_to_keep, :]
-            marker_colors = np.vstack((marker_colors, colors_to_display.reshape(-1, 3)))
+            colors_to_display = np.array(self.persistent_options.color_to_rerun(nb_frames_trials))[frames_to_keep]
+            marker_colors += [colors_to_display]
 
         # Get the partitions
         list_frames_to_keep = self.persistent_options.all_frames_to_keep(nb_frames_trials)
